@@ -23,7 +23,7 @@ setup(
         "ffmpeg==1.4",
         "joblib",
         "pandas",
-        "yt-dlp==2024.12.6",
+        "yt-dlp>=2024.12.6",
         "numpy", 
     ],
     extras_require = {
