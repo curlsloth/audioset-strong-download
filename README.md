@@ -2,6 +2,7 @@
 
 This repository contains code for downloading the [AudioSet](https://research.google.com/audioset/) dataset.
 The code is provided as-is, and is not officially supported by Google.
+Please note that as YouTube continually updates its API, the code in this repository may become outdated and stop working in the future.
 
 ## Updates in This Repository
 This repository is a revised version of [audioset-download](https://github.com/MorenoLaQuatra/audioset-download), with the following major updates:
