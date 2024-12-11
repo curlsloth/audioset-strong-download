@@ -19,21 +19,21 @@ This repository is a revised version of [audioset-download](https://github.com/M
 
 ```bash
 # Install ffmpeg
-sudo apt install ffmpeg
-# Install audioset-download
+brew install ffmpeg
+# Install audioset-strong-download
 pip install audioset-strong-download
 ```
 
 ## Usage
 
 The following code snippet downloads the unbalanced train set, and stores it in the `test` directory.
-It only downloads the files associated with the `Speech` and `Afrobeat` labels, and uses two parallel processes for downloading.
+It only downloads the files associated with the `Speech` and `Cart` labels, and uses two parallel processes for downloading.
 If a file is associated to multiple labels, it will be stored only once, and associated to the first label in the list.
 
 ```python
 from audioset_strong_download import Downloader
-d = Downloader(root_path='test', labels=["Speech", "Afrobeat"], n_jobs=2, download_type='eval', dataset_ver='strong', copy_and_replicate=False)
-d.download(format = 'vorbis')
+d = Downloader(root_path='test', labels=["Speech", "Cart"], n_jobs=2, download_type='eval', dataset_ver='strong', copy_and_replicate=False)
+d.download(format = 'wav')
 ```
 
 ## Implementation
