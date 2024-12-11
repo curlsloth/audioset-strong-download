@@ -4,9 +4,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='audioset-download',
-    version='1.0',
-    description='This package aims at simplifying the download of the AudioSet dataset.',
+    name='audioset-strong-download',
+    version='2.0',
+    description='This package aims at simplifying the download of the strong version of AudioSet dataset. This is a revised version of audioset-download (https://github.com/MorenoLaQuatra/audioset-download).',
     py_modules=["Downloader"],
     packages=find_packages(include=['audioset_download', 'audioset_download.*']),
     classifiers={
@@ -20,16 +20,18 @@ setup(
     long_description = long_description,
     long_description_content_type = "text/markdown",
     install_requires = [
+        "ffmpeg==1.4",
         "joblib",
         "pandas",
-        "yt-dlp",
+        "yt-dlp==2024.12.6",
+        "numpy", 
     ],
     extras_require = {
         "dev" : [
             "pytest>=3.7",
         ],
     },
-    url="https://github.com/MorenoLaQuatra/audioset-download",
-    author="Moreno La Quatra",
-    author_email="moreno.laquatra@gmail.com",
+    url="https://github.com/curlsloth/audioset-strong-download",
+    author="Andrew Chang & Moreno La Quatra",
+    author_email="c.andrew123@gmail.com",
 )
