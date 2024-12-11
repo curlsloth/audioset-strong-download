@@ -68,4 +68,16 @@ The methods of the class are:
 
 ## Cookies
 
-Due to the large number of files in AudioSet, YouTube may block the program from accessing videos. To address this issue, you can pass cookies to `yt-dlp`. For more details, refer to the [yt-dlp FAQ](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp).
+Due to the large number of files in AudioSet, YouTube may block the program from accessing videos. To address this issue, you can pass cookies to `yt-dlp` with the following steps:
+1. Run the command:  
+   ```bash
+   yt-dlp --cookies-from-browser chrome --cookies cookies.txt
+   ```  
+   This will generate a `cookies.txt` file in your current directory.
+
+2. Specify the cookies file path in the `Downloader()` function:  
+   ```python
+   cookies = "/path/to/cookies/file.txt"
+   ```
+
+For more details, refer to the [yt-dlp FAQ](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp).
