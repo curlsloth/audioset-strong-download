@@ -1,4 +1,3 @@
-from audioset_download import Downloader
-
-d = Downloader(root_path='audioset', labels=None, n_jobs=12, download_type='unbalanced_train', copy_and_replicate=False)
+from audioset_strong_download import Downloader
+d = Downloader(root_path='test', labels=["Speech", "Afrobeat"], n_jobs=2, download_type='eval', dataset_ver='strong', copy_and_replicate=False)
 d.download(format = 'vorbis')
