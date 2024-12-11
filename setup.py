@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='audioset-strong-download',
-    version='2.0',
+    version='2.0.1',
     description='This package aims at simplifying the download of the strong version of AudioSet dataset. This is a revised version of audioset-download (https://github.com/MorenoLaQuatra/audioset-download).',
     py_modules=["Downloader"],
     packages=find_packages(include=['audioset_download', 'audioset_download.*']),
