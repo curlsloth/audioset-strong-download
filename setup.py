@@ -8,7 +8,7 @@ setup(
     version='2.0.1',
     description='This package aims at simplifying the download of the strong version of AudioSet dataset. This is a revised version of audioset-download (https://github.com/MorenoLaQuatra/audioset-download).',
     py_modules=["Downloader"],
-    packages=find_packages(include=['audioset_download', 'audioset_download.*']),
+    packages=find_packages(include=['audioset_strong_download', 'audioset_strong_download.*']),
     classifiers={
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
