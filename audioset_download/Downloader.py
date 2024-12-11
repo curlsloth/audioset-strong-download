@@ -12,15 +12,19 @@ class Downloader:
                     root_path: str,
                     labels: list = None, # None to download all the dataset
                     n_jobs: int = 1,
-                    download_type: str = 'unbalanced_train',
+                    download_type: str = 'train',
+                    dataset_ver: str = 'strong',
                     copy_and_replicate: bool = True,
+                    cookies: str = None # None, then no cookies will be used
                     ):
         """
         This method initializes the class.
         :param root_path: root path of the dataset
         :param labels: list of labels to download
         :param n_jobs: number of parallel jobs
-        :param download_type: type of download (unbalanced_train, balanced_train, eval)
+        :param dataset_ver: dataset version (weak, strong)
+        :param download_type: type of download (weak: unbalanced_train, balanced_train, eval; strong: train, eval)
+        :param cookies: /path/to/cookies/file.txt 
         :param copy_and_replicate: if True, the audio file is copied and replicated for each label. 
                                     If False, the audio file is stored only once in the folder corresponding to the first label.
         """
@@ -29,7 +33,9 @@ class Downloader:
         self.labels = labels
         self.n_jobs = n_jobs
         self.download_type = download_type
+        self.dataset_ver = dataset_ver
         self.copy_and_replicate = copy_and_replicate
+        self.cookies = cookies
 
         # Create the path
         os.makedirs(self.root_path, exist_ok=True)
@@ -41,13 +47,23 @@ class Downloader:
         :return: class mapping
         """
 
-        class_df = pd.read_csv(
-            f"http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv", 
-            sep=',',
-        )
+        if self.dataset_ver=='weak':
+            class_df = pd.read_csv(
+                "http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv", 
+                sep=',',
+            )
 
+        elif self.dataset_ver=='strong':
+            class_df = pd.read_csv(
+                "http://storage.googleapis.com/us_audioset/youtube_corpus/strong/mid_to_display_name.tsv", 
+                sep='\t',
+                header=None,
+                names=['mid','display_name'],
+            )
+            
         self.display_to_machine_mapping = dict(zip(class_df['display_name'], class_df['mid']))
         self.machine_to_display_mapping = dict(zip(class_df['mid'], class_df['display_name']))
+        
         return
 
     def download(
@@ -63,16 +79,30 @@ class Downloader:
 
         self.format = format
         self.quality = quality
-
+        
         # Load the metadata
-        metadata = pd.read_csv(
-            f"http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/{self.download_type}_segments.csv", 
-            sep=', ', 
-            skiprows=3,
-            header=None,
-            names=['YTID', 'start_seconds', 'end_seconds', 'positive_labels'],
-            engine='python'
-        )
+        if self.dataset_ver=='weak':
+            # Load the metadata
+            metadata_csv = f"http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/{self.download_type}_segments.csv"
+            metadata = pd.read_csv(
+                metadata_csv, 
+                sep=', ', 
+                skiprows=3,
+                header=None,
+                names=['YTID', 'start_seconds', 'end_seconds', 'positive_labels'],
+                engine='python'
+            )
+        elif self.dataset_ver=='strong':
+            metadata_csv = f"http://storage.googleapis.com/us_audioset/youtube_corpus/strong/audioset_{self.download_type}_strong.tsv"
+            metadata = pd.read_csv(
+                metadata_csv, 
+                sep='\t', 
+                skiprows=1,
+                header=None,
+                names=['YTID', 'start_seconds', 'end_seconds', 'positive_labels'],
+                engine='python'
+            )
+        
         if self.labels is not None:
             self.real_labels = [self.display_to_machine_mapping[label] for label in self.labels]
             metadata = metadata[metadata['positive_labels'].apply(lambda x: any([label in x for label in self.real_labels]))]
@@ -117,7 +147,7 @@ class Downloader:
         # Download the file using yt-dlp
         # store in the folder of the first label
         first_display_label = self.machine_to_display_mapping[positive_labels.split(',')[0]]
-        os.system(f'yt-dlp -x --audio-format {self.format} --audio-quality {self.quality} --output "{os.path.join(self.root_path, first_display_label, ytid)}_{start_seconds}-{end_seconds}.%(ext)s" --postprocessor-args "-ss {start_seconds} -to {end_seconds}" https://www.youtube.com/watch?v={ytid}')
+        os.system(f'yt-dlp -x --audio-format {self.format} --audio-quality {self.quality} --output "{os.path.join(self.root_path, first_display_label, ytid)}_{start_seconds}-{end_seconds}.%(ext)s" --download-sections *{start_seconds}-{end_seconds} --force-keyframes-at-cuts --cookies {self.cookies} https://www.youtube.com/watch?v={ytid}')
         
         if self.copy_and_replicate:
             # copy the file in the other folders
