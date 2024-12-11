@@ -21,7 +21,7 @@ This repository is a revised version of [audioset-download](https://github.com/M
 # Install ffmpeg
 sudo apt install ffmpeg
 # Install audioset-download
-pip install audioset-download
+pip install audioset-strong-download
 ```
 
 ## Usage
@@ -31,8 +31,8 @@ It only downloads the files associated with the `Speech` and `Afrobeat` labels, 
 If a file is associated to multiple labels, it will be stored only once, and associated to the first label in the list.
 
 ```python
-from audioset_download import Downloader
-d = Downloader(root_path='test', labels=["Speech", "Afrobeat"], n_jobs=2, download_type='unbalanced_train', copy_and_replicate=False)
+from audioset_strong_download import Downloader
+d = Downloader(root_path='test', labels=["Speech", "Afrobeat"], n_jobs=2, download_type='eval', dataset_ver='strong', copy_and_replicate=False)
 d.download(format = 'vorbis')
 ```
 
