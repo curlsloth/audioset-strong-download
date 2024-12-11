@@ -6,7 +6,7 @@ The code is provided as-is, and is not officially supported by Google.
 ## Updates in This Repository
 This repository is a revised version of [audioset-download](https://github.com/MorenoLaQuatra/audioset-download), with the following major updates:
 
-1. Updated commands to support the latest version of `yt-dlp`.
+1. Updated commands to support the latest version of `yt-dlp`, with a particular focus on specifying the time segment to be downloaded.
 2. Added functionality to download either the dataset with [original 10-second-resolution labels](https://research.google.com/audioset/download.html) or the [2021 temporally-strong labels](https://research.google.com/audioset/download_strong.html).
 3. Enabled support for incorporating `cookies` in the `yt-dlp` command. 
 
