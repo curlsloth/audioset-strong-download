@@ -38,11 +38,13 @@ d.download(format = 'vorbis')
 
 ## Implementation
 
-The main class is `audioset_download.Downloader`. It is initialized using the following parameters:
+The main class is `audioset_strong_download.Downloader`. It is initialized using the following parameters:
 * `root_path`: the path to the directory where the dataset will be downloaded.
-* `labels`: a list of labels to download. If `None`, all labels will be downloaded.
+* `labels`: a list of labels to download. If `None`, all labels will be downloaded. See [weak labels](http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv) and [strong labels](http://storage.googleapis.com/us_audioset/youtube_corpus/strong/mid_to_display_name.tsv)
 * `n_jobs`: the number of parallel downloads. Default is 1.
-* `dataset_ver`: `strong` or `weak`
+* `dataset_ver`:
+  * `strong`: [temporally-strong labels (May 2021)](https://research.google.com/audioset/download_strong.html)
+  * `weak`: [original 10-second-resolution labels](https://research.google.com/audioset/download.html)
 * `download_type`: the type of download. It can be one of the following:
   * `balanced_train`: balanced train set (weak)
   * `unbalanced_train`: unbalanced train set (weak)
