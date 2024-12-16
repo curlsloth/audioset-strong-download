@@ -1,3 +1,5 @@
+### Ensure you read YouTube’s Terms of Service and confirm that you have the necessary permissions to access the data.
+
 # AudioSet Strong Download
 
 This repository contains code for downloading the [AudioSet](https://research.google.com/audioset/) dataset.
